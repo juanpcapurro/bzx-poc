@@ -1,3 +1,9 @@
 [submodule "bZx-monorepo"]
 	path = bZx-monorepo
 	url = git@github.com:bZxNetwork/bZx-monorepo.git
+[submodule "fulcrum-subgraph"]
+	path = fulcrum-subgraph
+	url = git@github.com:GraphiteTools/fulcrum-subgraph.git
+[submodule "contractsV2"]
+	path = contractsV2
+	url = git@github.com:bZxNetwork/contractsV2.git
