@@ -9,3 +9,13 @@ type ImplementationContract @entity {
   signature: String!
 }
 
+type Token @entity {
+  id: ID!
+  enabled: Boolean!
+  liquidityPool: LoanPool
+}
+
+type LoanPool @entity {
+  id: ID!
+  underlying: Token! 
+}

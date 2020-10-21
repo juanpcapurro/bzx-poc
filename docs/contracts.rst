@@ -32,6 +32,7 @@ LoanMaintenance
 
 ProtocolSettings
 ================
+Responsible over listing and de-listing of liquidity pools and supported tokens
 
 LoanClosings
 ============

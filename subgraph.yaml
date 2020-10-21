@@ -14,10 +14,18 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - ShareRateChange
+        - BZxProtocol
+        - ImplementationContract
+        - LoanPool
+        - Token
       abis:
         - name: bZxProtocol
           file: ./abis/bZxProtocol.json
+      eventHandlers:
+        - event: SetLoanPool(indexed address,indexed address,indexed address)
+          handler: handleSetLoanPool
+        - event: SetSupportedTokens(indexed address,indexed address,bool)
+          handler: handleSetSupportedTokens
       callHandlers:
         - function: replaceContract(address)
           handler: handleReplaceContract

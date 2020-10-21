@@ -1,6 +1,11 @@
 import { log, Address } from '@graphprotocol/graph-ts'
-import { SetTargetsCall, ReplaceContractCall } from '../generated/bZxProtocol/bZxProtocol'
-import { BZxProtocol, ImplementationContract } from '../generated/schema'
+import {
+  SetTargetsCall,
+  ReplaceContractCall,
+  SetSupportedTokens,
+  SetLoanPool,
+} from '../generated/bZxProtocol/bZxProtocol'
+import { BZxProtocol, ImplementationContract, Token, LoanPool } from '../generated/schema'
 import { GLOBAL_PROTOCOL_ID } from './constants'
 
 function getOrCreateGlobalProtocol(): BZxProtocol {
@@ -21,6 +26,7 @@ export function handleReplaceContract(call: ReplaceContractCall): void {
   implementation.save()
   log.error('added implementation: {}', [target])
 }
+
 export function handleSetTargets(call: SetTargetsCall): void {
   getOrCreateGlobalProtocol().save()
   const signatures: Array<string> = call.inputs.sigsArr
@@ -33,6 +39,28 @@ export function handleSetTargets(call: SetTargetsCall): void {
     implementation.address = target
     implementation.signature = signature
     implementation.save()
-    log.error('added implementation for signature {} at address {}', [signature, target.toHexString()])
+    log.warning('added implementation for signature {} at address {}', [signature, target.toHexString()])
   }
+}
+
+export function handleSetSupportedTokens(event: SetSupportedTokens): void {
+  const token: Token = new Token(event.params.token.toHexString())
+  token.enabled = event.params.isActive
+  token.save()
+}
+
+export function handleSetLoanPool(event: SetLoanPool): void {
+  const loanPool: LoanPool = new LoanPool(event.params.loanPool.toHexString())
+  loanPool.underlying = event.params.underlying.toHexString()
+  const underlying = Token.load(loanPool.underlying)
+  if (underlying) {
+    underlying.liquidityPool = loanPool.id
+    underlying.save()
+  } else {
+    log.warning('The underlying token: {} for the liquidity pool: {} is not registered', [
+      loanPool.underlying,
+      loanPool.id,
+    ])
+  }
+  loanPool.save()
 }
