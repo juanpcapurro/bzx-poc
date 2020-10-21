@@ -1,0 +1,11 @@
+type BZxProtocol @entity {
+  id: ID!
+  implementations: [ImplementationContract]! @derivedFrom(field: "protocolId")
+}
+type ImplementationContract @entity {
+  id: ID!
+  protocolId: BZxProtocol!
+  address: Bytes!
+  signature: String!
+}
+

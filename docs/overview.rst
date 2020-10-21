@@ -1,6 +1,9 @@
 =========
 Liquidity
 =========
+
+.. warning:: this is as I understood from the documentation which seems to be outdated and only for v1
+
 Users can borrow as many tokens from an iToken as other users have lent to said contract
 
 - ``marketLiquidity()``: amount of iToken available for borrowing (``totalAssetSupply()-totalAssetBorrow()``)

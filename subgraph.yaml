@@ -1,0 +1,26 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: bZxProtocol
+    network: mainnet
+    source:
+      address: "0xd8ee69652e4e4838f2531732a46d1f7f584f0b7f"
+      abi: bZxProtocol
+      startBlock: 10777780
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - ShareRateChange
+      abis:
+        - name: bZxProtocol
+          file: ./abis/bZxProtocol.json
+      callHandlers:
+        - function: replaceContract(address)
+          handler: handleReplaceContract
+        - function: setTargets(string[],address[])
+          handler: handleSetTargets
+      file: ./src/mapping.ts
